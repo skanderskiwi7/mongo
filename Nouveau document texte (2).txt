@@ -1,0 +1,306 @@
+---
+> use contact
+switched to db contact
+> show collections
+contactlist
+contactlsit
+> db.dropDatabase('contact')
+Error: invalid parameter: expected an object (writeConcern) :
+runClientFunctionWithRetries@src/mongo/shell/session.js:371:27
+runCommand@src/mongo/shell/session.js:466:25
+DB.prototype._runCommandImpl@src/mongo/shell/db.js:166:12
+DB.prototype.runCommand@src/mongo/shell/db.js:181:16
+DB.prototype.dropDatabase@src/mongo/shell/db.js:415:12
+@(shell):1:1
+> db.dropDatabase(contact)
+uncaught exception: ReferenceError: contact is not defined :
+@(shell):1:1
+> show dbs
+admin    0.000GB
+config   0.000GB
+contact  0.000GB
+local    0.000GB
+test     0.000GB
+> use contact
+switched to db contact
+> db.dropDatabase()
+{ "ok" : 1 }
+> show bds
+uncaught exception: Error: don't know how to show [bds] :
+shellHelper.show@src/mongo/shell/utils.js:1211:11
+shellHelper@src/mongo/shell/utils.js:838:15
+@(shellhelp2):1:1
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+test    0.000GB
+
+
+
+
+
+--------- pour creer un base de donné si n'est pas encore creer ou switcher vers le base donné si le base de donné est deja crée---------------
+
+
+> use contact
+switched to db contact
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+test    0.000GB
+> db.createCollection('contactlist')
+{ "ok" : 1 }
+
+
+
+-------- pour verifier si la collection a bien été creer ou pas-----------
+
+
+> show dbs
+admin    0.000GB
+config   0.000GB
+contact  0.000GB
+local    0.000GB
+test     0.000GB
+
+
+> db.contactlist.insert({{
+... lastName:'Ben Lahmer',
+... firstName:'Fares',
+... email:'fares@gmail.com',
+... age:26,
+... },
+... {
+... LastName: 'Kefi',
+... firstName: 'Seif',
+... Email:'kefi@gmail.com',
+... Age:15,
+... },
+... {
+... lastName:'Fatnasi',
+... firstName:'Sarra',
+... email:'sarra.f@gmail.com',
+... age:40,
+... },
+... {
+... lastName:'ben yahia',
+... firstName:'Rym',
+... email:'',
+... age:4,
+... },
+... {
+...  lastName: "Cherif",
+...  firstName: "Sami",
+...  email:'',
+...  age:3,
+... ])
+uncaught exception: SyntaxError: expected property name, got '{' :
+@(shell):1:23
+
+
+------------creer une collection : le mongo va génerer un Id automatique---------
+
+
+
+> db.contactlist.insertMany([{
+... lastName:'Ben Lahmer',
+... firstName:'Fares',
+... email:'fares@gmail.com',
+... age:26,
+... },
+... {
+... LastName: 'Kefi',
+... firstName: 'Seif',
+... Email:'kefi@gmail.com',
+... Age:15,
+... },
+... {
+... lastName:'Fatnasi',
+... firstName:'Sarra',
+... email:'sarra.f@gmail.com',
+... age:40,
+... },
+... {
+... lastName:'ben yahia',
+... firstName:'Rym',
+... email:'',
+... age:4,
+... },
+... {
+...  lastName: "Cherif",
+...  firstName: "Sami",
+...  email:'',
+...  age:3,
+... }])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("638e5d319bdc4af82e73eb31"),
+                ObjectId("638e5d319bdc4af82e73eb32"),
+                ObjectId("638e5d319bdc4af82e73eb33"),
+                ObjectId("638e5d319bdc4af82e73eb34"),
+                ObjectId("638e5d319bdc4af82e73eb35")
+        ]
+}
+
+-----------------affichage mouch mezyen--------------------
+
+
+> db.contactlist.find()
+{ "_id" : ObjectId("638e5d319bdc4af82e73eb31"), "lastName" : "Ben Lahmer", "firstName" : "Fares", "email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("638e5d319bdc4af82e73eb32"), "LastName" : "Kefi", "firstName" : "Seif", "Email" : "kefi@gmail.com", "Age" : 15 }
+{ "_id" : ObjectId("638e5d319bdc4af82e73eb33"), "lastName" : "Fatnasi", "firstName" : "Sarra", "email" : "sarra.f@gmail.com", "age" : 40 }
+{ "_id" : ObjectId("638e5d319bdc4af82e73eb34"), "lastName" : "ben yahia", "firstName" : "Rym", "email" : "", "age" : 4 }
+{ "_id" : ObjectId("638e5d319bdc4af82e73eb35"), "lastName" : "Cherif", "firstName" : "Sami", "email" : "", "age" : 3 }
+> db.contactlist.find.pretty()
+uncaught exception: TypeError: db.contactlist.find.pretty is not a function :
+@(shell):1:1
+
+
+---------------affichage mezyen--------------
+
+
+> db.contactlist.find().pretty()
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb31"),
+        "lastName" : "Ben Lahmer",
+        "firstName" : "Fares",
+        "email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb32"),
+        "LastName" : "Kefi",
+        "firstName" : "Seif",
+        "Email" : "kefi@gmail.com",
+        "Age" : 15
+}
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb33"),
+        "lastName" : "Fatnasi",
+        "firstName" : "Sarra",
+        "email" : "sarra.f@gmail.com",
+        "age" : 40
+}
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb34"),
+        "lastName" : "ben yahia",
+        "firstName" : "Rym",
+        "email" : "",
+        "age" : 4
+}
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb35"),
+        "lastName" : "Cherif",
+        "firstName" : "Sami",
+        "email" : "",
+        "age" : 3
+}
+> db.contactlist.find(_id: ObjectId("638e5d319bdc4af82e73eb34"))
+uncaught exception: SyntaxError: missing ) after argument list :
+@(shell):1:23
+> db.contactlist.find({_id: ObjectId("638e5d319bdc4af82e73eb34")})
+{ "_id" : ObjectId("638e5d319bdc4af82e73eb34"), "lastName" : "ben yahia", "firstName" : "Rym", "email" : "", "age" : 4 }
+> db.contactlist.find({_id: ObjectId("638e5d319bdc4af82e73eb34")}).pretty()
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb34"),
+        "lastName" : "ben yahia",
+        "firstName" : "Rym",
+        "email" : "",
+        "age" : 4
+}
+> db.contactlist.find({age:4})
+{ "_id" : ObjectId("638e5d319bdc4af82e73eb34"), "lastName" : "ben yahia", "firstName" : "Rym", "email" : "", "age" : 4 }
+> db.contactlist.find({age:4}).pretty()
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb34"),
+        "lastName" : "ben yahia",
+        "firstName" : "Rym",
+        "email" : "",
+        "age" : 4
+}
+> db.contactlist.find({age:{$gt>18}})
+uncaught exception: SyntaxError: missing : after property id :
+@(shell):1:29
+> db.contactlist.find({age:{$gt:18}})
+{ "_id" : ObjectId("638e5d319bdc4af82e73eb31"), "lastName" : "Ben Lahmer", "firstName" : "Fares", "email" : "fares@gmail.com", "age" : 26 }
+{ "_id" : ObjectId("638e5d319bdc4af82e73eb33"), "lastName" : "Fatnasi", "firstName" : "Sarra", "email" : "sarra.f@gmail.com", "age" : 40 }
+> db.contactlist.find({age:{$gte:18}}).pretty()
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb31"),
+        "lastName" : "Ben Lahmer",
+        "firstName" : "Fares",
+        "email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb33"),
+        "lastName" : "Fatnasi",
+        "firstName" : "Sarra",
+        "email" : "sarra.f@gmail.com",
+        "age" : 40
+
+
+
+}------------------recherche avec 2 parametres-------------------------
+
+
+> db.contactlist.find({$and:[{age:{$gte:18}}, {lastName:{$regex:"ah"}}]}).pretty()
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb31"),
+        "lastName" : "Ben Lahmer",
+        "firstName" : "Fares",
+        "email" : "fares@gmail.com",
+        "age" : 26
+}
+>--------------------update----------------------------
+
+> db.contactlist.update({firstName: "Seif"},{$set:{firstName:"hrissa"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+---------------------show--------------------------
+
+> db.contactlist.find({firstName:"hrissa"}).pretty()
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb32"),
+        "LastName" : "Kefi",
+        "firstName" : "hrissa",
+        "Email" : "kefi@gmail.com",
+        "Age" : 15
+}
+>
+
+--------------------remove (effacer)-------- on va effacer ceux qui ont < ou =  4 ans
+
+
+> db.contactlist.find().pretty()
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb31"),
+        "lastName" : "Ben Lahmer",
+        "firstName" : "Fares",
+        "email" : "fares@gmail.com",
+        "age" : 26
+}
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb32"),
+        "LastName" : "Kefi",
+        "firstName" : "hrissa",
+        "Email" : "kefi@gmail.com",
+        "Age" : 15
+}
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb33"),
+        "lastName" : "Fatnasi",
+        "firstName" : "Sarra",
+        "email" : "sarra.f@gmail.com",
+        "age" : 40
+}
+{
+        "_id" : ObjectId("638e5d319bdc4af82e73eb34"),
+        "lastName" : "ben yahia",
+        "firstName" : "Rym",
+        "email" : "",
+        "age" : 4
+}
